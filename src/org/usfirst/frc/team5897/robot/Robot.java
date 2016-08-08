@@ -35,12 +35,6 @@ public class Robot extends IterativeRobot {
 
 	int autonomousNumber = 1; // Number of auto mode running
 
-	/**
-	 * Values For Autonomous Number 1: Forward Auto 2: Portaculus Auto 3:Chivale
-	 * de Frise Auto 4: Low Bar Auto: Shooting 5: Low Bar Auto: Not Shooting 6:
-	 * Troubleshoot Auto
-	 */
-
 	// -----------------code auto generated for autonomous ------------//
 	SmartDashboard dash = new SmartDashboard();
 	// ----------------------------------------------------------------//
@@ -57,17 +51,6 @@ public class Robot extends IterativeRobot {
 	Timer time = new Timer();
 	Timer buzz = new Timer();
 	Timer Scaletimer = new Timer();
-
-	boolean upPresed = false;
-	boolean downPressed = false;
-	boolean leftPressed = false;
-	boolean rightPressed = false;
-	boolean yPressed = false;
-	boolean bPressed = false;
-
-	boolean ScaleIsIdle;
-	boolean LiftIsIdle;
-	boolean LevelIsIdle;
 
 	final double deadzoneValue = .25; // the zone in which the joystick
 										// registers the

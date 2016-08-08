@@ -1,0 +1,39 @@
+SOME INFORMATION IN REGARDS TO BUTTON ASSIGNMENTS
+
+STICKS & TRIGGERS (ANALOG):
+
+LEFT X: axis(0) - Full up is -1, full down is 1
+LEFT Y: axis(1) - Full up is -1, full down is 1
+RIGHT X: axis(4) - Full up is -1, full down is 1
+RIGHT Y: axis(5) - Full up is -1, full down is 1
+LEFT TRIG: axis(2) - Trigger range is only 0 to 1
+RIGHT TRIG: axis(3) - Trigger range is only 0 to 1
+ 
+BUTTONS (DIGITAL):
+ 
+A = 1 
+B = 2 
+X = 3 
+Y = 4 
+LB = 5 
+RB = 6 
+BACK = 7 
+START = 8
+Left Stick (Press) = 9 
+Right Stick (Press) = 10
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+POV: use joystick.getPOV(0) and you will get numbers
+ 
+DPAD: 
+
+up = 0
+up-right = 45
+right = 90
+bottom-right = 135
+bottom = 180 
+bottom-left = 225
+left = 270
+up-left = 315
+IDLE = -1
