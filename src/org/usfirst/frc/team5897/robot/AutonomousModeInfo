@@ -1,0 +1,12 @@
+~~~~~ AUTONOMOUS MODE INFORMATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+** Auto modes can be switched in the BASIC tab (first box) on the dashboard.**
+** Ensure that an auto mode is set to prevent crashing **
+
+Current available modes:
+
+0 - IDLE
+1 - FORWARD; drives forward for the time indicated in the code
+2 - ZIG-ZAG; zig-zags, each motion happens for the time indicated in the code
+3 - SPIN; spins for the time indicated in the code
+9 - SELF TEST; activates all mechanisms sequentially to check for issues

@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot {
 		time.reset();
 		time.start();
 		ran = false;
-		// Error checking to prevent crashing
+		// Error checking to prevent crashing - currently does not work
 		if (dash.getString("DB/String 0") != null) {
 			autonomousNumber = Integer.valueOf(dash.getString("DB/String 0"));
 		} else {
@@ -123,23 +123,21 @@ public class Robot extends IterativeRobot {
 		dash.putNumber("DB/Slider 0", autonomousNumber);
 		switch (autonomousNumber) {
 		case 0:
-			// doNothingAuto(1f);
+			idleAuto(1f); // Robot stands still
 			break;
 		case 1:
-			// forwardAuto(4f);
+			forwardAuto(4f); // Robot drives forward
 			break;
 		case 2:
-			// portcullisAuto(1, 3.4f, 4.4f, 7);
+			zigzagAuto(2f, 3f, 5f, 6f, 8f); // Sequence is: forward, turns left,
+											// forward, turns right, forward
 			break;
 		case 3:
-			// seesawAuto(2.4f, 3.0f, 6, 7);
+			spinAuto(2f); // Spins to the right
 			break;
-		case 4:
-			// lowbarShoot(1, 9.125f, 10.325f, 10.825f, 15.173f, 16.173f);
-		case 5:
-			// lowbarNoShoot(1, 9.125f, 10.325f);
-		case 6:
-			// selfTest();
+		case 9:
+			selfTest(); // Activates each mechanism individually for
+						// troubleshooting
 		}
 	}
 
@@ -169,13 +167,12 @@ public class Robot extends IterativeRobot {
 
 	}
 
-	public double joystickDeadzone(double joystickValue) { /* Adds a dead-zone
-															 to the selected
-															 axis, then scales
-															 down the axis so
-															 that 0 starts
-															 from the edge of
-															 the dead-zone */
+	public double joystickDeadzone(
+			double joystickValue) { /*
+									 * Adds a dead-zone to the selected axis,
+									 * then scales down the axis so that 0
+									 * starts from the edge of the dead-zone
+									 */
 		if (joystickValue <= deadzoneValue && joystickValue >= -deadzoneValue) {
 			joystickValue = 0;
 		}
@@ -197,6 +194,107 @@ public class Robot extends IterativeRobot {
 		while (isOperatorControl() && isEnabled()) {
 			/** robot code here! **/
 			Timer.delay(0.005); // wait for a motor update time
+		}
+	}
+
+	// Creating new methods to be referenced in Auto.java, preventing resource
+	// conflict. Not currently effective but used below in the Auto Modes.
+
+	public void FWDAuto(float AutoSpeed) {
+		Driver.forward(AutoSpeed);
+	}
+
+	public void BWDAuto(float AutoSpeed) {
+		FWDAuto(-AutoSpeed);
+	}
+
+	public void TRNAuto(float AutoSpeed, boolean left) {
+		Driver.turn(AutoSpeed, left);
+	}
+
+	public void STOPAuto() {
+		Driver.stop();
+	}
+
+	public void ENDAUTO() {
+		STOPAuto();
+	}
+
+	// Auto Modes
+
+	// ~~~~~~~~~AUTO WIP - TO BE REMOVED TO DIFFERNT CLASS~~~~~~~~~~~~~~~
+
+	public void idleAuto(float timeState1) {
+		System.out.println("time: " + time);
+		if (time.get() <= timeState1) {
+			ENDAUTO();
+		}
+	}
+
+	public void forwardAuto(float timeState1) {
+		System.out.println("time: " + time);
+		if (time.get() <= timeState1) {
+			FWDAuto(1);
+		} else if (time.get() >= timeState1) {
+			ENDAUTO();
+		}
+	}
+
+	public void zigzagAuto(float timeState1, float timeState2, float timeState3, float timeState4, float timeState5) {
+		System.out.println("time: " + time);
+		if (time.get() <= timeState1) {
+			FWDAuto(1);
+		} else if (time.get() >= timeState1 && time.get() <= timeState2) {
+			STOPAuto(); //These stops help prevent coasting
+			TRNAuto(0.5f, false);
+		} else if (time.get() >= timeState2 && time.get() <= timeState3) {
+			STOPAuto();
+			FWDAuto(1);
+		} else if (time.get() >= timeState3 && time.get() <= timeState4) {
+			STOPAuto();
+			TRNAuto(0.5f, true);
+		} else if (time.get() >= timeState4 && time.get() <= timeState5) {
+			STOPAuto();
+			FWDAuto(1);
+		} else if (time.get() >= timeState5) {
+			ENDAUTO();
+		}
+	}
+
+	public void spinAuto(float timeState1) {
+		System.out.println("time: " + time);
+		if (time.get() <= timeState1) {
+			TRNAuto(0.5f, false);
+		} else if (time.get() >= timeState1) {
+			ENDAUTO();
+		}
+	}
+
+	public void selfTest() {
+		if (time.get() <= 1) {
+			Driver.BL.set(0.75f); // Back Left motor going forward
+		} else if (time.get() > 2 && time.get() <= 3) {
+			Driver.BL.set(-0.75f); // Back Left motor going backwards
+		} else if (time.get() > 3 && time.get() <= 4) {
+			Driver.BL.set(0);
+			Driver.FL.set(0.75f); // Front Left motor going forward
+		} else if (time.get() > 4 && time.get() <= 5) {
+			Driver.FL.set(-0.75f); // Front Left motor going backwards
+		} else if (time.get() > 5 && time.get() <= 6) {
+			Driver.FL.set(0);
+			Driver.BR.set(0.75f); // Back Right motor going forward
+		} else if (time.get() > 6 && time.get() <= 7) {
+			Driver.BR.set(-0.75f); // Back Right motor going backwards
+		} else if (time.get() > 7 && time.get() <= 8) {
+			Driver.BR.set(0);
+			Driver.FR.set(0.75f); // Front Right motor going forward
+		} else if (time.get() > 8 && time.get() <= 9) {
+			Driver.FR.set(-0.75f); // Front Right motor going backwards
+		} else if (time.get() > 9 && time.get() <= 9.5f) {
+			Driver.FR.set(0);
+		} else {
+			ENDAUTO(); // backup measure in case the last running motor doesn't
+						// stop
 		}
 	}
 }

@@ -10,6 +10,7 @@ public class DriveTrain {
 	Robot main = new Robot();
 
 	// Order of motors is FL,BL,FR,BR
+	// ** PORTS TO BE CHANGED DEPENDING ON PHYSICAL ROBOT PORTS **
 	public final VictorSP FL = new VictorSP(0); // front left motor
 	public final VictorSP BL = new VictorSP(1); // back left motor
 	public final VictorSP FR = new VictorSP(6); // front right motor
@@ -114,6 +115,29 @@ public class DriveTrain {
 								// easier
 		FR.set(-FR.get());
 		BR.set(-BR.get());
+	}
+	
+	public void forward(float speed) {// used to move forward in auto
+		setLeft(speed);
+		setRight(-speed);
+		//correct(); // corrects the inverted motor
+	}
+
+	public void backward(float speed) { // used to move backward in auto
+		setLeft(-speed);
+		setRight(speed);
+		//correct(); // corrects the inverted motor
+	}
+ 
+	public void turn(float speed, boolean left) { // used to turn in auto, prompts left turn or right turn (not left)
+		if (!left) {
+			setLeft(speed);
+			setRight(speed);
+		} else if (left) {
+			setLeft(-speed);
+			setRight(-speed);
+		}
+		//correct(); // corrects the inverted motor
 	}
 
 	static double smooth(double a, double b, float f) {
